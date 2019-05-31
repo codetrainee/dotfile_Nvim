@@ -4,6 +4,12 @@ set number
 " show leader key
 set showcmd
 
+let maplocalleader = "\<Space>"
+" the default is , you can also set it to <Space> if you don’t like my setting
+
+" remap c-w to avoid conflicts
+:nnoremap <LocalLeader>w <C-w>
+
 " load the vim.plug management system
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
   silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
@@ -28,7 +34,14 @@ Plug 'junegunn/goyo.vim' "for nice zoom effet when editing, see screenshot below
 Plug 'ferrine/md-img-paste.vim' "paste directly image in system clipboard to rmarkdown by putting images in an /img folder (created automatically)
 call plug#end()
 
-" enable ncm2 for all buffers
+" set default R: radian
+let R_app = "radian"
+let R_cmd = "R"
+let R_hl_term = 0
+let R_args = []  " if you had set any
+let R_bracketed_paste = 1
+
+" enable buffer for all sessions
 autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " IMPORTANT: :help Ncm2PopupOpen for more information
@@ -58,8 +71,6 @@ autocmd FileType rmd nmap p :call mdip#MarkdownClipboardImage()
 
 """-----------"""     tricks
 
-let maplocalleader = "\<Space>"
-" the default is , you can also set it to <Space> if you don’t like my setting
 " make R starts automatically when .R or .Rmd file open and only starts one time
 autocmd FileType r if string(g:SendCmdToR) == "function('SendCmdToR_fake')" | call StartR("R") | endif
 autocmd FileType rmd if string(g:SendCmdToR) == "function('SendCmdToR_fake')" | call StartR("R") | endif
